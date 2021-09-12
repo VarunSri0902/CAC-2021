@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Create Sign Up page as a stateful widget
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -12,6 +13,7 @@ class _SignUpState extends State<SignUp> {
   String email = '';
   String password = '';
 
+  // Create a form key for the sign in for validation
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -22,6 +24,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // Create AppBar
         appBar: AppBar(
           title: Text(
             'App Title',
@@ -34,6 +37,8 @@ class _SignUpState extends State<SignUp> {
           centerTitle: true,
           backgroundColor: Colors.cyanAccent[100],
         ),
+      
+        //Create Form
         body: Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
             child: Center(
@@ -57,7 +62,8 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-
+                          
+                          //Update the email string when the text field is changed
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -70,6 +76,7 @@ class _SignUpState extends State<SignUp> {
                           height: 20.0,
                         ),
                         TextFormField(
+                          // Check if the password has 8 or more characters
                           validator: (value) {
                             if (value == null || value.length < 8) {
                               return 'Password must contain 8 or more characters';
