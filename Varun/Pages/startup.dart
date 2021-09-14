@@ -6,6 +6,7 @@ class StartUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.blueGrey[100],
         appBar: AppBar(
           title: Text(
             'App Title',
@@ -23,19 +24,32 @@ class StartUp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
-                },
-                child: Text('Sign Up'),
-              ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(fontSize: 25.0),
+                    ),
+                  )),
               //
               //
+              SizedBox(height: 30.0),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                child: Text('Log In'),
-              )
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+                    child: Text(
+                      'Log In',
+                      style: TextStyle(fontSize: 25.0),
+                    ),
+                  )),
             ],
           ),
         ));

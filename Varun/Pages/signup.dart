@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:test_app1/services/auth.dart';
+import 'package:test_app1/shared/constants.dart';
 
-// Create Sign Up page as a stateful widget
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -9,11 +10,16 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final AuthService _auth = AuthService();
+
   //text field state
+  String name = '';
+  String userName = '';
+  int grade = 0;
   String email = '';
   String password = '';
+  String error = '';
 
-  // Create a form key for the sign in for validation
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -24,7 +30,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // Create AppBar
+        backgroundColor: Colors.blueGrey[100],
         appBar: AppBar(
           title: Text(
             'App Title',
@@ -37,8 +43,6 @@ class _SignUpState extends State<SignUp> {
           centerTitle: true,
           backgroundColor: Colors.cyanAccent[100],
         ),
-      
-        //Create Form
         body: Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
             child: Center(
@@ -46,15 +50,87 @@ class _SignUpState extends State<SignUp> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        //Email Input
+                        //First Name Input
                         SizedBox(
-                          height: 20.0,
+                          height: 15.0,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'Enter a valid email',
-                          ),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'First Name'),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          onChanged: (val) {
+                            setState(() {
+                              name = val;
+                            });
+                          },
 
+                          // Check if the field is empty
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your first name';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        //Username Input
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Username'),
+                          onChanged: (val) {
+                            setState(() {
+                              userName = val;
+                            });
+                          },
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          // Check if the field is empty
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter an username';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        //Grade Input
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          decoration:
+                              textInputDecoration.copyWith(hintText: 'Grade'),
+                          keyboardType: TextInputType.number,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          onChanged: (val) {
+                            setState(() {
+                              grade = int.parse(val);
+                            });
+                          },
+                          validator: (value) {
+                            // Check if the field is empty
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your grade';
+                            }
+                            //Check if field is in grade range
+                            else if (int.parse(value) < 6 ||
+                                int.parse(value) > 12) {
+                              return 'You must be between 6th and 12th grade';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        //Email Input
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          decoration:
+                              textInputDecoration.copyWith(hintText: 'Email'),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           // Check if the field is empty
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -62,8 +138,6 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          
-                          //Update the email string when the text field is changed
                           onChanged: (val) {
                             setState(() {
                               email = val;
@@ -71,12 +145,14 @@ class _SignUpState extends State<SignUp> {
                           },
                         ),
 
-                        //Password Inpuut
+                        //Password Input
                         SizedBox(
-                          height: 20.0,
+                          height: 15.0,
                         ),
                         TextFormField(
-                          // Check if the password has 8 or more characters
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Password'),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null || value.length < 8) {
                               return 'Password must contain 8 or more characters';
@@ -90,15 +166,43 @@ class _SignUpState extends State<SignUp> {
                             });
                           },
                         ),
+
+                        SizedBox(
+                          height: 15.0,
+                        ),
                         ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              print('all good');
-                              //Navigator.pushReplacementNamed(context, '/home');
+                              dynamic result =
+                                  await _auth.registerEmail(email, password);
+                              print(result);
+                              if (result == null) {
+                                setState(() {
+                                  error = 'Could no create an account';
+                                });
+                                print(error);
+                              } else {
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
+                              }
                             }
                           },
-                          child: Text('Sign Up'),
-                        )
+                          child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 20.0),
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(fontSize: 20.0),
+                              )),
+                        ),
+                        SizedBox(height: 12),
+                        Text(
+                          error,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.red,
+                          ),
+                        ),
                       ],
                     )))));
   }
