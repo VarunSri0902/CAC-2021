@@ -20,7 +20,7 @@ class _SignUpState extends State<SignUp> {
   String password = '';
   String error = '';
 
-  final _formKey = GlobalKey<FormState>();
+  final _signInformKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -31,23 +31,12 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.blueGrey[100],
-        appBar: AppBar(
-          title: Text(
-            'App Title',
-            style: TextStyle(
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.cyanAccent[100],
-        ),
+        appBar: appBar,
         body: Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
             child: Center(
                 child: Form(
-                    key: _formKey,
+                    key: _signInformKey,
                     child: Column(
                       children: <Widget>[
                         //First Name Input
@@ -172,13 +161,12 @@ class _SignUpState extends State<SignUp> {
                         ),
                         ElevatedButton(
                           onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              dynamic result =
-                                  await _auth.registerEmail(email, password);
-                              print(result);
+                            if (_signInformKey.currentState!.validate()) {
+                              dynamic result = await _auth.registerEmail(
+                                  email, password, userName, name, grade);
                               if (result == null) {
                                 setState(() {
-                                  error = 'Could no create an account';
+                                  error = 'Could not create an account';
                                 });
                                 print(error);
                               } else {
