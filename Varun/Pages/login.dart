@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:test_app1/services/auth.dart';
+import 'package:test_app1/shared/constants.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -8,65 +10,95 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  final AuthService _auth = AuthService();
   //text field state
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   void initState() {
     super.initState();
   }
 
+  final _logInformKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'App Title',
-            style: TextStyle(
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.cyanAccent[100],
-        ),
+        backgroundColor: Colors.blueGrey[100],
+        appBar: appBar,
         body: Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
             child: Center(
                 child: Form(
+                    key: _logInformKey,
                     child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  onChanged: (val) {
-                    setState(() {
-                      email = val;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  obscureText: true,
-                  onChanged: (val) {
-                    setState(() {
-                      password = val;
-                    });
-                  },
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    print('Email: ' + email + '\nPassword: ' + password);
-                    //Navigator.pushReplacementNamed(context, '/home');
-                  },
-                  child: Text('Log In'),
-                )
-              ],
-            )))));
+                      children: <Widget>[
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                            decoration:
+                                textInputDecoration.copyWith(hintText: 'Email'),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            onChanged: (val) {
+                              setState(() {
+                                email = val;
+                              });
+                            }),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                            decoration: textInputDecoration.copyWith(
+                                hintText: 'Password'),
+                            obscureText: true,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            onChanged: (val) {
+                              setState(() {
+                                password = val;
+                              });
+                            }),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_logInformKey.currentState!.validate()) {
+                              dynamic result =
+                                  await _auth.logInEmail(email, password);
+                              if (result == null) {
+                                setState(() {
+                                  error = 'Could not log in';
+                                });
+                                print(error);
+                              } else {
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
+                                print(result);
+                              }
+                            }
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 20.0),
+                              child: Text(
+                                'Log In',
+                                style: TextStyle(fontSize: 20.0),
+                              )),
+                        ),
+                        SizedBox(height: 12),
+                        Text(
+                          error,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                    )))));
   }
 }
