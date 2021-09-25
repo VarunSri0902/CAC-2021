@@ -15,3 +15,16 @@ const textInputDecoration = InputDecoration(
     //Border created when there is an error
     errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red, width: 2.0)));
+
+final appBar = AppBar(
+  title: Text(
+    'App Title',
+    style: TextStyle(
+      fontSize: 40.0,
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    ),
+  ),
+  centerTitle: true,
+  backgroundColor: Colors.cyanAccent[100],
+);
