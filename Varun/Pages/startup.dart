@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_app1/shared/constants.dart';
 
 class StartUp extends StatelessWidget {
   const StartUp({Key? key}) : super(key: key);
@@ -7,18 +8,7 @@ class StartUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.blueGrey[100],
-        appBar: AppBar(
-          title: Text(
-            'App Title',
-            style: TextStyle(
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.cyanAccent[100],
-        ),
+        appBar: appBar,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
