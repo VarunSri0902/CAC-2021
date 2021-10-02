@@ -72,6 +72,7 @@ class Post extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
+                          // Will go to View Post page later, just for testing
                           print('Reply: ' + docID);
                         },
                       ),
