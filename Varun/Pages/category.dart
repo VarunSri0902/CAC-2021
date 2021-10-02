@@ -20,8 +20,6 @@ class _CategoryPostsState extends State<CategoryPosts> {
         .get();
 
     return snapshot.docs;
-    //print(doc[0].data());
-    //print(doc[1].data()['id']);
   }
 
   @override
@@ -63,8 +61,10 @@ class _CategoryPostsState extends State<CategoryPosts> {
                 }
                 return Text('Loading');
               }),
+         
         ],
       ),
+      //Will add a FloatingActionButton to add posts to Firebase
     );
   }
 }
