@@ -25,6 +25,7 @@ class Home extends StatelessWidget {
           child: ElevatedButton(
             child: Text('Go to category page'),
             onPressed: () {
+              //Pushes the category COVID to the Category Posts Page, any String could have been inputted, simply for testing purposes
               Navigator.push(
                   context,
                   MaterialPageRoute(
