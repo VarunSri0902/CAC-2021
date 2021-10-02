@@ -16,9 +16,13 @@ const textInputDecoration = InputDecoration(
     errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red, width: 2.0)));
 
+final postDecoration = BoxDecoration(
+  color: Colors.blueGrey[400],
+);
+
 final appBar = AppBar(
   title: Text(
-    'App Title',
+    'Advice Forum',
     style: TextStyle(
       fontSize: 40.0,
       fontWeight: FontWeight.bold,
