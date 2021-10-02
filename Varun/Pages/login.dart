@@ -78,7 +78,6 @@ class _LogInState extends State<LogIn> {
                               } else {
                                 Navigator.pushReplacementNamed(
                                     context, '/home');
-                                print(result);
                               }
                             }
                           },
