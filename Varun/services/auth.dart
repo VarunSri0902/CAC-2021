@@ -11,6 +11,8 @@ class AuthService {
       UserCredential result = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       // Create document for user
+      dynamic user = result.user;
+      await user.updateProfile(displayName: username);
       await DatabaseService().createUserData(username, grade, name);
 
       //Return user data
